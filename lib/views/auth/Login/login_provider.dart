@@ -10,10 +10,13 @@ class LoginProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
+    // Simulate a login delay
     await Future.delayed(const Duration(seconds: 2));
 
     isLoading = false;
     notifyListeners();
+
+    // You can add your real login logic here later
   }
 
   @override

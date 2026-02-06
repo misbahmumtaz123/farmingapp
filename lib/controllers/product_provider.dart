@@ -22,7 +22,7 @@ class ProductProvider with ChangeNotifier {
     ProductModel(
       id: '3',
       title: 'Hybrid Tomato Seeds',
-      image: 'assets/images/tomato.jpg',
+      image: 'assets/images/tomatos.jpg',
       price: '180',
       unit: 'packet',
       isFeatured: true,

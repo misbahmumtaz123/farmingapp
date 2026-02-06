@@ -25,22 +25,64 @@ class _FarmingNavBarState extends State<FarmingNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
+      backgroundColor: Colors.grey.shade100,
+
+      body: IndexedStack(index: _currentIndex, children: _pages),
+
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.black12)],
+        ),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            navItem(0, Icons.home, "Home"),
+            navItem(1, Icons.shopping_bag, "Products"),
+            navItem(2, Icons.grid_view, "Orders"),
+            navItem(3, Icons.person, "Profile"),
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() => _currentIndex = index);
-        },
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: "Product"),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: "Orders"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
+    );
+  }
+
+  Widget navItem(int index, IconData icon, String title) {
+    bool selected = _currentIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() => _currentIndex = index);
+      },
+
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: selected ? Color(0xFF245C32) : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
+
+        child: Row(
+          children: [
+            Icon(icon, color: selected ? Colors.white : Colors.grey),
+
+            if (selected) ...[
+              const SizedBox(width: 6),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

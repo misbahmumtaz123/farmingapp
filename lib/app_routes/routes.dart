@@ -1,6 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:farmingapp/views/auth/forgetpassword/forgetpas_view.dart';
 import 'package:go_router/go_router.dart';
-
 import '../Views/auth/Login/login_view.dart';
 import '../Views/auth/Signup/signup_view.dart';
 import '../Views/onboarding/onboarding_view.dart';
@@ -17,7 +16,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: RoutePaths.onboarding,
-      builder: (context, state) =>  OnboardingView(),
+      builder: (context, state) => OnboardingView(),
     ),
     GoRoute(
       path: RoutePaths.login,
@@ -32,6 +31,10 @@ final router = GoRouter(
     GoRoute(
       path: RoutePaths.navbar,
       builder: (context, state) => const FarmingNavBar(),
+    ),
+    GoRoute(
+      path: RoutePaths.password,
+      builder: (context, state) => const ForgotPasswordView(),
     ),
   ],
 );

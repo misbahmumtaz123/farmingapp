@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "659814777847",
+    "project_id": "farmingapp-72e88",
+    "storage_bucket": "farmingapp-72e88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659814777847:android:9ad354edf01798502d64f2",
+        "android_client_info": {
+          "package_name": "com.edonlink.farmingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVxUY98IiAOZuUhUcoZ2xP702XY1-ILi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659814777847:android:b134edff42b6684b2d64f2",
+        "android_client_info": {
+          "package_name": "com.example.farmingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVxUY98IiAOZuUhUcoZ2xP702XY1-ILi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

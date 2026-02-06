@@ -4,10 +4,20 @@ import 'package:go_router/go_router.dart';
 import 'package:farmingapp/app_routes/paths.dart';
 import 'onboarding_provider.dart';
 
-class OnboardingView extends StatelessWidget {
-  OnboardingView({super.key});
+class OnboardingView extends StatefulWidget {
+  const OnboardingView({super.key});
 
+  @override
+  State<OnboardingView> createState() => _OnboardingViewState();
+}
+
+class _OnboardingViewState extends State<OnboardingView>
+    with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController();
+
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
 
   final List<Map<String, String>> onboardingData = const [
     {
@@ -28,6 +38,35 @@ class OnboardingView extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(_animationController);
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, .25),
+      end: Offset.zero,
+    ).animate(_animationController);
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => OnboardingProvider(),
@@ -42,40 +81,58 @@ class OnboardingView extends StatelessWidget {
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: onboardingData.length,
-                      onPageChanged: provider.updatePage,
+                      onPageChanged: (index) {
+                        provider.updatePage(index);
+                        _animationController.reset();
+                        _animationController.forward();
+                      },
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(24),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Title
-                              Text(
-                                onboardingData[index]['title']!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          child: FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.agriculture,
+                                    size: 120,
+                                    color: Color(0xFF1B5E20),
+                                  ),
+
+                                  const SizedBox(height: 40),
+
+                                  Text(
+                                    onboardingData[index]['title']!,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 16),
+
+                                  Text(
+                                    onboardingData[index]['description']!,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 16),
-                              // Description
-                              Text(
-                                onboardingData[index]['description']!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         );
                       },
                     ),
                   ),
 
-                  // ===== INDICATOR (LEFT) + ARROW (RIGHT) =====
+                  // ===== INDICATOR + BUTTON =====
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24,
@@ -83,7 +140,6 @@ class OnboardingView extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        // Indicators LEFT
                         Row(
                           children: List.generate(
                             onboardingData.length,
@@ -94,7 +150,6 @@ class OnboardingView extends StatelessWidget {
 
                         const Spacer(),
 
-                        // Arrow RIGHT
                         GestureDetector(
                           onTap: () {
                             if (provider.currentPage ==
@@ -132,7 +187,6 @@ class OnboardingView extends StatelessWidget {
     );
   }
 
-  // ===== INDICATOR =====
   Widget _buildIndicator(bool isActive) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),

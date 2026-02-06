@@ -21,7 +21,6 @@ class LoginView extends StatelessWidget {
             children: [
               const SizedBox(height: 60),
 
-              /// Title
               const Text(
                 'Welcome Back',
                 textAlign: TextAlign.center,
@@ -85,52 +84,20 @@ class LoginView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: provider.isLoading
-                      ? null
-                      : () async {
-                          await provider.login();
-                          context.go(RoutePaths.navbar);
-                        },
-                  child: provider.isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                          'Sign In',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              /// Divider
-              Row(
-                children: const [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('or continue with'),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              /// Google Button
-              SizedBox(
-                height: 50,
-                child: OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.g_mobiledata, size: 30),
-                  label: const Text(
-                    'Continue with Google',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                  onPressed:
+                      provider.isLoading
+                          ? null
+                          : () async {
+                            await provider.login();
+                            context.go(RoutePaths.navbar);
+                          },
+                  child:
+                      provider.isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                            'Sign In',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                 ),
               ),
 

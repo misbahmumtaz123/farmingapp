@@ -10,4 +10,5 @@ class RoutePaths {
   static const product = '/product';
   static const order = '/order';
   static const profile = '/profile';
+  static const password = '/password';
 }
