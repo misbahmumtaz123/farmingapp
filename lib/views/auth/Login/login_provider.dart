@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginProvider extends ChangeNotifier {
-  bool isLoading = false;
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> login() async {
-    isLoading = true;
-    notifyListeners();
+  bool isLoading = false;
 
-    // Simulate a login delay
-    await Future.delayed(const Duration(seconds: 2));
+  Future<bool> login() async {
+    try {
+      isLoading = true;
+      notifyListeners();
 
-    isLoading = false;
-    notifyListeners();
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
 
-    // You can add your real login logic here later
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   @override

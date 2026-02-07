@@ -1,8 +1,8 @@
-import 'package:farmingapp/app_routes/paths.dart';
-import 'package:farmingapp/Views/auth/Signup/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:farmingapp/app_routes/paths.dart';
+import 'package:farmingapp/views/auth/Signup/signup_provider.dart';
 
 class SignupView extends StatelessWidget {
   const SignupView({super.key});
@@ -111,9 +111,12 @@ class SignupView extends StatelessWidget {
                       provider.isLoading
                           ? null
                           : () async {
-                            await provider.signup();
-                            context.go(RoutePaths.navbar);
+                            final success = await provider.signup();
+                            if (success && context.mounted) {
+                              context.go(RoutePaths.navbar);
+                            }
                           },
+
                   child:
                       provider.isLoading
                           ? const CircularProgressIndicator(color: Colors.white)

@@ -1,20 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupProvider extends ChangeNotifier {
-  bool isLoading = false;
-
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> signup() async {
-    isLoading = true;
-    notifyListeners();
+  bool isLoading = false;
 
-    await Future.delayed(const Duration(seconds: 2));
+  Future<bool> signup() async {
+    try {
+      isLoading = true;
+      notifyListeners();
 
-    isLoading = false;
-    notifyListeners();
+      final name = nameController.text.trim();
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+
+      if (name.isEmpty || email.isEmpty || password.isEmpty) return false;
+
+      final cred = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(cred.user!.uid)
+          .set({'uid': cred.user!.uid, 'name': name, 'email': email});
+
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   @override
