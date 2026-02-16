@@ -7,9 +7,7 @@ import 'package:farmingapp/providers/app_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
